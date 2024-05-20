@@ -1,11 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Interativa</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    #calendar {
+        text-align: center;
+    }
+    #calendar td {
+        padding: 10px;
+        cursor: pointer;
+    }
+    #event-form {
+        display: none;
+    }
+</style>
 </head>
 <body>
-    Pagina 2 sucesso!!
+<div class="container">
+    <h1>Agenda Interativa</h1>
+    <div>
+        <label for="agenda">Escolha a agenda:</label>
+        <select id="agenda">
+            <option value="trabalho">Trabalho</option>
+            <option value="pessoal">Pessoal</option>
+            <option value="estudos">Estudos</option>
+        </select>
+    </div>
+    <div id="calendar">
+        <table>
+            <thead>
+                <tr>
+                    <th>Domingo</th>
+                    <th>Segunda</th>
+                    <th>Terça</th>
+                    <th>Quarta</th>
+                    <th>Quinta</th>
+                    <th>Sexta</th>
+                    <th>Sábado</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body">
+            </tbody>
+        </table>
+    </div>
+    <div id="event-form">
+        <h2>Adicionar Compromisso</h2>
+        <label for="title">Título:</label>
+        <input type="text" id="title"><br>
+        <label for="description">Descrição:</label><br>
+        <textarea id="description" rows="4" cols="50"></textarea><br>
+        <button id="save-event">Salvar</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarBody = document.getElementById('calendar-body');
+        const eventForm = document.getElementById('event-form');
+        const saveButton = document.getElementById('save-event');
+        const titleInput = document.getElementById('title');
+        const descriptionInput = document.getElementById('description');
+
+        function createCalendar(month, year) {
+            calendarBody.innerHTML = '';
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            let date = 1;
+            for (let i = 0; i < 6; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('td');
+                    if (i === 0 && j < firstDay) {
+                        const emptyCell = document.createElement('div');
+                        cell.appendChild(emptyCell);
+                    } else if (date > daysInMonth) {
+                        break;
+                    } else {
+                        const dayDiv = document.createElement('div');
+                        dayDiv.textContent = date;
+                        dayDiv.addEventListener('click', function() {
+                            showEventForm(month, year, date);
+                        });
+                        cell.appendChild(dayDiv);
+                        date++;
+                    }
+                    row.appendChild(cell);
+                }
+                calendarBody.appendChild(row);
+            }
+        }
+
+        function showEventForm(month, year, day) {
+            eventForm.style.display = 'block';
+            saveButton.addEventListener('click', function() {
+                const title = titleInput.value;
+                const description = descriptionInput.value;
+                // Aqui você pode salvar o compromisso, por exemplo, em um banco de dados ou local storage
+                console.log(`Compromisso: ${title}, Descrição: ${description}, Data: ${day}/${month + 1}/${year}`);
+                // Depois de salvar, você pode fechar o formulário ou fazer qualquer outra ação necessária
+                eventForm.style.display = 'none';
+                titleInput.value = '';
+                descriptionInput.value = '';
+            });
+        }
+
+        // Para simplificar, aqui estamos apenas exibindo o calendário do mês atual
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentYear = today.getFullYear();
+        createCalendar(currentMonth, currentYear);
+    });
+</script>
 </body>
 </html>
