@@ -1,2 +1,2 @@
 # ProjectRK
-Inicialmente uma agenda
+Inicialmente uma agenda, futuramente um ProjetoRK.
