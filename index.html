@@ -4,87 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProjectRK</title>
-    <h1>Iniciando ProjetoRK</h1>
-
-    <style>
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-        th, td {
-          border: 1px solid black;
-          padding: 8px;
-          text-align: center;
-        }
-        th {
-          background-color: #f2f2f2;
-        }
-      </style>
-      </head>
-      <body>
-      <style>h2 {font-family: Arial, Helvetica, sans-serif; font-size: 24px;}</style>
-      <h2>Agenda</h2>
-      
-      <table>
-        <tr>
-          <th>Domingo</th>
-          <th>Segunda</th>
-          <th>Terça</th>
-          <th>Quarta</th>
-          <th>Quinta</th>
-          <th>Sexta</th>
-          <th>Sábado</th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
-          <td>5</td>
-          <td>6</td>
-          <td>7</td>
-        </tr>
-        <tr>
-          <td>8</td>
-          <td>9</td>
-          <td>10</td>
-          <td>11</td>
-          <td>12</td>
-          <td>13</td>
-          <td>14</td>
-        </tr>
-        <tr>
-          <td>15</td>
-          <td>16</td>
-          <td>17</td>
-          <td>18</td>
-          <td>19</td>
-          <td>20</td>
-          <td>21</td>
-        </tr>
-        <tr>
-          <td>22</td>
-          <td>23</td>
-          <td>24</td>
-          <td>25</td>
-          <td>26</td>
-          <td>27</td>
-          <td>28</td>
-        </tr>
-        <tr>
-          <td>29</td>
-          <td>30</td>
-          <td>31</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-      
-      </body>
-      </html>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Conteúdo do Login aqui -->
+    <div class="login-container">
+        <h2>Login</h2>
+      <img src="placeholder.jpg" alt="Foto do Usuário">
+      <form id="login-form">
+        <input type="text" id="username" placeholder="Usuário" required>
+        <br>
+        <input type="password" id="password" placeholder="Senha" required>
+        <br>
+        <button type="submit">Login</button>
+      </form>
+      <button id="cadastro-btn">Cadastrar</button>
+    </div>
+      <!-- Conteúdo do Cadastro aqui -->
+    <div class="cadastro-container" style="display: none;">
+      <h2>Cadastro</h2>
+      <form id="cadastro-form">
+        <input type="text" id="new-username" placeholder="Novo Usuário" required>
+        <br>
+        <input type="password" id="new-password" placeholder="Nova Senha" required>
+        <br>
+        <button type="submit">Cadastrar</button>
+        <button id="voltar-login">Voltar para o Login</button>
+      </form>
+    </div>
+      <!-- Conteúdo do menu aqui -->
+    <div id="menu-container" style="display: none;">
+        <h2>Agenda Online</h2>
+        <input type="text" id="eventInput" placeholder="Digite seu evento">
+        <button onclick="addEvent()">Adicionar Evento</button>
+        <ul id="eventList"></ul>
+      <button id="voltar-login-menu">Voltar para o Login</button>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
