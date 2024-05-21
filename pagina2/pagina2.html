@@ -1,130 +1,157 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agenda Interativa</title>
+<title>Calendário Interativo</title>
 <style>
     body {
         font-family: Arial, sans-serif;
     }
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
+    .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr); /* 7 colunas para os dias da semana */
+        gap: 1px; /* Espaçamento entre as células */
     }
-    h1 {
-        text-align: center;
-    }
-    #calendar {
-        text-align: center;
-    }
-    #calendar td {
+    .day {
+        border: 1px solid #ccc;
         padding: 10px;
         cursor: pointer;
+        background-color: #f0f0f0; /* Cor de fundo das células */
     }
-    #event-form {
-        display: none;
+    .day:nth-child(7n+1) {
+        border-left-color: #ccc; /* Adicionando borda esquerda para cada primeira célula de uma nova linha */
+    }
+    .day:nth-child(-n+7) {
+        border-top-color: #ccc; /* Adicionando borda superior para os primeiros 7 dias */
+    }
+    .day:last-child {
+        border-right-color: #ccc; /* Adicionando borda direita para o último dia */
+    }
+    .modal {
+        display: none; /* Inicialmente oculta */
+        position: fixed; /* Permanece fixa na tela */
+        z-index: 1; /* Empilhamento acima de outros elementos */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Adiciona rolagem se o conteúdo for maior que a janela modal */
+        background-color: rgba(0,0,0,0.4); /* Fundo escuro semi-transparente */
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* Centraliza verticalmente */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px; /* Largura máxima */
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>
 </head>
 <body>
-<div class="container">
-    <h1>Agenda Interativa</h1>
-    <div>
-        <label for="agenda">Escolha a agenda:</label>
-        <select id="agenda">
-            <option value="trabalho">Trabalho</option>
-            <option value="pessoal">Pessoal</option>
-            <option value="estudos">Estudos</option>
-        </select>
-    </div>
-    <div id="calendar">
-        <table>
-            <thead>
-                <tr>
-                    <th>Domingo</th>
-                    <th>Segunda</th>
-                    <th>Terça</th>
-                    <th>Quarta</th>
-                    <th>Quinta</th>
-                    <th>Sexta</th>
-                    <th>Sábado</th>
-                </tr>
-            </thead>
-            <tbody id="calendar-body">
-            </tbody>
-        </table>
-    </div>
-    <div id="event-form">
-        <h2>Adicionar Compromisso</h2>
-        <label for="title">Título:</label>
-        <input type="text" id="title"><br>
-        <label for="description">Descrição:</label><br>
-        <textarea id="description" rows="4" cols="50"></textarea><br>
-        <button id="save-event">Salvar</button>
-    </div>
+
+<h1>Calendário Interativo</h1>
+
+<div class="calendar" id="calendar">
+</div>
+
+<div id="reminderModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <label for="title">Título:</label><br>
+    <input type="text" id="title"><br>
+    <label for="description">Descrição:</label><br>
+    <textarea id="description"></textarea><br>
+    <button onclick="saveReminder()">Salvar</button>
+  </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const calendarBody = document.getElementById('calendar-body');
-        const eventForm = document.getElementById('event-form');
-        const saveButton = document.getElementById('save-event');
-        const titleInput = document.getElementById('title');
-        const descriptionInput = document.getElementById('description');
+    // Dados dos dias do mês
+    const dias_do_mes = [
+        "1", "2", "3", "4", "5", "6", "7",
+        "8", "9", "10", "11", "12", "13", "14",
+        "15", "16", "17", "18", "19", "20", "21",
+        "22", "23", "24", "25", "26", "27", "28",
+        "29", "30", "31"
+    ];
 
-        function createCalendar(month, year) {
-            calendarBody.innerHTML = '';
+    // Objeto para armazenar os lembretes
+    const lembretes = {};
 
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
+    // Função para criar o calendário
+    function createCalendar() {
+        const calendar = document.getElementById("calendar");
+        const dias_semana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+        
+        // Cria os cabeçalhos dos dias da semana
+        dias_semana.forEach(dia => {
+            const header = document.createElement("div");
+            header.textContent = dia;
+            header.classList.add("day");
+            header.style.backgroundColor = "#ddd";
+            calendar.appendChild(header);
+        });
 
-            let date = 1;
-            for (let i = 0; i < 6; i++) {
-                const row = document.createElement('tr');
-                for (let j = 0; j < 7; j++) {
-                    const cell = document.createElement('td');
-                    if (i === 0 && j < firstDay) {
-                        const emptyCell = document.createElement('div');
-                        cell.appendChild(emptyCell);
-                    } else if (date > daysInMonth) {
-                        break;
-                    } else {
-                        const dayDiv = document.createElement('div');
-                        dayDiv.textContent = date;
-                        dayDiv.addEventListener('click', function() {
-                            showEventForm(month, year, date);
-                        });
-                        cell.appendChild(dayDiv);
-                        date++;
-                    }
-                    row.appendChild(cell);
-                }
-                calendarBody.appendChild(row);
-            }
-        }
+        // Cria os dias do mês
+        dias_do_mes.forEach(dia => {
+            const dayElement = document.createElement("div");
+            dayElement.textContent = dia;
+            dayElement.classList.add("day");
+            dayElement.addEventListener("click", () => showReminderWindow(dia));
+            calendar.appendChild(dayElement);
+        });
+    }
 
-        function showEventForm(month, year, day) {
-            eventForm.style.display = 'block';
-            saveButton.addEventListener('click', function() {
-                const title = titleInput.value;
-                const description = descriptionInput.value;
-                // Aqui você pode salvar o compromisso, por exemplo, em um banco de dados ou local storage
-                console.log(`Compromisso: ${title}, Descrição: ${description}, Data: ${day}/${month + 1}/${year}`);
-                // Depois de salvar, você pode fechar o formulário ou fazer qualquer outra ação necessária
-                eventForm.style.display = 'none';
-                titleInput.value = '';
-                descriptionInput.value = '';
-            });
-        }
+    // Função para exibir a janela de lembrete
+    function showReminderWindow(dia) {
+        const modal = document.getElementById("reminderModal");
+        const modalTitle = document.getElementById("modalTitle");
+        modalTitle.textContent = dia;
+        modal.style.display = "block";
+    }
 
-        // Para simplificar, aqui estamos apenas exibindo o calendário do mês atual
-        const today = new Date();
-        const currentMonth = today.getMonth();
-        const currentYear = today.getFullYear();
-        createCalendar(currentMonth, currentYear);
-    });
+    // Função para salvar o lembrete
+    function saveReminder() {
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        // Aqui você pode adicionar a lógica para salvar o lembrete
+        // Neste exemplo, apenas armazenamos os dados em um objeto
+        const dia = document.getElementById("modalTitle").textContent;
+        lembretes[dia] = { "Título": title, "Descrição": description };
+        // Você pode adicionar mais ações aqui, como fechar a janela modal
+        closeReminderWindow();
+    }
+
+    // Função para fechar a janela de lembrete
+    function closeReminderWindow() {
+        const modal = document.getElementById("reminderModal");
+        modal.style.display = "none";
+        // Limpar campos do modal
+        document.getElementById("title").value = "";
+        document.getElementById("description").value = "";
+    }
+
+    // Evento para fechar a janela modal ao clicar no botão "Fechar"
+    document.querySelector(".close").addEventListener("click", closeReminderWindow);
+
+    // Inicializar o calendário
+    createCalendar();
 </script>
+
 </body>
 </html>
