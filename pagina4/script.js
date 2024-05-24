@@ -1,5 +1,12 @@
-document.getElementById('voltar_menu').addEventListener('click', function(event) {
-    event.preventDefault();
-    alert('Voltando ao Menu!');
-    window.location.href = "/ProjectRK/menu/menu.html";
-});
+const getYearsOld = () => {
+    if(new Date().getMonth() < 6) {
+        return new Date().getFullYear() - 1999 - 1;
+    }
+
+    if(new Date().getDate() < 10) {
+        return new Date().getFullYear() - 1999 - 1;
+    }
+
+    return new Date().getFullYear() - 1999;
+}
+document.getElementById('idade_kanee').innerHTML = "Idade: " + getYearsOld();

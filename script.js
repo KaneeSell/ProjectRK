@@ -8,7 +8,6 @@ document.getElementById('cadastro-btn').addEventListener('click', function() {
   loginContainer.style.display = 'none';
   cadastroContainer.style.display = 'block';
 });
-
 document.getElementById('login-form').addEventListener('submit', function(event) {
   event.preventDefault();
   var username = usernameInput.value;
@@ -20,7 +19,6 @@ document.getElementById('login-form').addEventListener('submit', function(event)
   var user = storedUsers.find(function(user) {
     return user.username === username && user.password === password;
   });
-
   if (user) {
     alert('Login feito com sucesso!');
     window.location.href = "menu/menu.html";
@@ -30,7 +28,6 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     passwordInput.value = ''; // Limpa o campo de senha
   }
 });
-
 document.getElementById('cadastro-form').addEventListener('submit', function(event) {
   event.preventDefault();
   var newUsername = document.getElementById('new-username').value;
@@ -45,17 +42,14 @@ document.getElementById('cadastro-form').addEventListener('submit', function(eve
   cadastroContainer.style.display = 'none';
   loginContainer.style.display = 'block';
 });
-
 document.getElementById('voltar-login').addEventListener('click', function() {
   cadastroContainer.style.display = 'none';
   loginContainer.style.display = 'block';
 });
-
 document.getElementById('voltar-login-menu').addEventListener('click', function() {
   menuContainer.style.display = 'none';
   loginContainer.style.display = 'block';
 });
-
 function createCookie(name, value, days) {
   var expires = '';
   if (days) {
@@ -65,7 +59,6 @@ function createCookie(name, value, days) {
   }
   document.cookie = name + '=' + value + expires + '; path=/';
 }
-
 function parseCookie(name) {
   var cookies = document.cookie.split(';');
   for (var i = 0; i < cookies.length; i++) {
@@ -79,7 +72,6 @@ function parseCookie(name) {
   }
   return null;
 }
-
 function addEvent() {
     var eventInput = document.getElementById("eventInput");
     var eventText = eventInput.value;
