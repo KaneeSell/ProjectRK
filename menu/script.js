@@ -6,7 +6,7 @@ document.getElementById('ir_agenda').addEventListener('click', function(event) {
 document.getElementById('ir_pagina2').addEventListener('click', function(event) {
     event.preventDefault();
     alert('Navegando para pagina2!');
-    window.location.href = "pagina2/pagina2.html";
+    window.location.href = "/pagina2/pagina2.html";
 });
 document.getElementById('ir_pagina3').addEventListener('click', function(event) {
     event.preventDefault();
