@@ -13,11 +13,11 @@ body {
         background-position: center;
       }
       .login-container, .cadastro-container, #menu-container {
+        color: #ffffff;
         border-radius: 50px;
         background-image: linear-gradient(330deg, #291446, #2A124A, #73539D, #7958a3);
         padding: 50px ;
         background-clip: padding-box;
-        /* border: 50px solid transparent; */
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         text-align: center;
       }
@@ -44,7 +44,7 @@ body {
         width: 100%;
         padding: 10px;
         background-color: #007bff;
-        color: #fff;
+        color: #ffff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
@@ -56,9 +56,9 @@ body {
   }
   .button {
     padding: 10px 20px;
-    border: 1px solid black;
+    border: 1px solid white;
     background-color: #73539D;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     border-radius: 10px;
     cursor: pointer;
     line-height: 50px;
