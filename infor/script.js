@@ -3,10 +3,10 @@ const getYearsOld = () => {
         return new Date().getFullYear() - 1999 - 1;
     }
 
-    if(new Date().getDate() < 10) {
+    if(new Date().getDate() < 9) {
         return new Date().getFullYear() - 1999 - 1;
     }
 
     return new Date().getFullYear() - 1999;
 }
-document.getElementById('idade_kanee').innerHTML = "Idade: " + getYearsOld();
+document.getElementById('idade_raging').innerHTML = "Idade: " + getYearsOld();

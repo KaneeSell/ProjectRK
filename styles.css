@@ -53,17 +53,6 @@ body {
         cursor: pointer;
         margin-top: 10px;
       }
-      /* .login-container button,
-      .cadastro-container button, #menu-container button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        color: #ffff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 10px;
-      } */
   .login-container button:hover,
   .cadastro-container button:hover, #menu-container button:hover {
     background-color: #AA8CD0;
@@ -79,4 +68,7 @@ body {
   } 
   .button:hover {
     background-color: #AA8CD0;
+  }
+  .name_logo {
+    text-shadow: 0px 0px 2px rgb(255, 255, 255);
   }
