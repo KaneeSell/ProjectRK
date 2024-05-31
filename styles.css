@@ -12,6 +12,10 @@ body {
         background-size: 100% 120%;
         background-position: center;
       }
+      .evento {
+        padding-top: auto;
+        color: white;
+      }
       .login-container, .cadastro-container, #menu-container {
         color: #ffffff;
         border-radius: 50px;
@@ -35,11 +39,21 @@ body {
         width: 100%;
         padding: 10px;
         margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+        border: 1px solid rgb(255, 255, 255);
+        border-radius: 10px;
         box-sizing: border-box;
       }
       .login-container button,
+      .cadastro-container button, #menu-container button {
+        padding: 10px 20px;
+        background-color: #73539D;
+        color: rgb(255, 255, 255);
+        border: 1px solid white;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      /* .login-container button,
       .cadastro-container button, #menu-container button {
         width: 100%;
         padding: 10px;
@@ -49,10 +63,10 @@ body {
         border-radius: 5px;
         cursor: pointer;
         margin-top: 10px;
-      }
+      } */
   .login-container button:hover,
   .cadastro-container button:hover, #menu-container button:hover {
-    background-color: #0056b3;
+    background-color: #AA8CD0;
   }
   .button {
     padding: 10px 20px;
